@@ -2,86 +2,213 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Simoq Pro | SMS Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMOQ Premium | SMS Service</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { background: #0f172a; color: white; -webkit-user-select: none; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+        body { background-color: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; -webkit-user-select: none; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
+        .hidden-tab { display: none; }
+        .active-tab { display: block; animation: slideUp 0.4s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        input { transition: all 0.2s; }
+        input:focus { border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); outline: none; }
     </style>
 </head>
 <body oncontextmenu="return false">
 
-    <nav class="p-4 bg-slate-800 flex justify-center gap-4">
-        <button onclick="showTab('customer')" class="bg-blue-600 px-4 py-2 rounded">Müşteri Sayfası</button>
-        <button onclick="showTab('admin')" class="bg-red-600 px-4 py-2 rounded">Admin Paneli</button>
+    <!-- NAV BAR -->
+    <nav class="glass sticky top-0 z-50 p-4 mb-8">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-black tracking-tighter text-blue-500">SIMOQ<span class="text-white">PREMIUM</span></div>
+            <div id="navButtons" class="flex gap-4">
+                <button onclick="switchTab('auth')" class="text-sm font-medium hover:text-blue-400">Giriş Yap</button>
+                <button id="adminBtn" onclick="switchTab('admin-login')" class="text-sm bg-red-500/10 text-red-500 px-3 py-1 rounded-full border border-red-500/20">Admin</button>
+            </div>
+            <div id="userProfile" class="hidden flex items-center gap-4">
+                <span id="userNameDisplay" class="text-sm text-slate-400"></span>
+                <button onclick="logout()" class="text-xs bg-slate-800 px-3 py-1 rounded">Çıkış</button>
+            </div>
+        </div>
     </nav>
 
-    <!-- MÜŞTERİ BÖLÜMÜ -->
-    <div id="customer" class="tab-content active p-8">
-        <h2 class="text-2xl font-bold mb-4">Mevcut Numaralar</h2>
-        <div id="numberGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <!-- Numaralar buraya gelecek -->
-        </div>
+    <div class="max-w-5xl mx-auto px-4">
+
+        <!-- 1. GİRİŞ & KAYIT (AUTH) -->
+        <section id="tab-auth" class="active-tab max-w-md mx-auto">
+            <div class="glass p-8 rounded-3xl">
+                <h2 class="text-2xl font-bold mb-6 text-center">Hoş Geldiniz</h2>
+                <div class="space-y-4">
+                    <input id="authEmail" type="email" placeholder="E-posta" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl">
+                    <input id="authPass" type="password" placeholder="Şifre" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl">
+                    <button onclick="loginUser()" class="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-xl font-bold">Giriş Yap</button>
+                    <p class="text-center text-xs text-slate-500">Hesabınız yok mu? <a href="#" class="text-blue-400">Kayıt Ol</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. MÜŞTERİ PANELİ (SATIŞ) -->
+        <section id="tab-customer" class="hidden-tab">
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h1 class="text-3xl font-bold">Numara Listesi</h1>
+                    <p class="text-slate-400 mt-1">Lütfen kullanmak istediğiniz servisi seçin.</p>
+                </div>
+                <div class="bg-blue-600/10 text-blue-500 px-4 py-2 rounded-xl border border-blue-500/20">
+                    Bakiye: <span class="font-bold">$0.00</span>
+                </div>
+            </div>
+            <div id="numberGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Numaralar Buraya Dinamik Gelecek -->
+            </div>
+        </section>
+
+        <!-- 3. ADMIN GİRİŞ -->
+        <section id="tab-admin-login" class="hidden-tab max-w-md mx-auto">
+            <div class="glass p-8 rounded-3xl border-red-500/30">
+                <h2 class="text-xl font-bold mb-6 text-red-500"><i class="fa-solid fa-lock mr-2"></i>Admin Yetkilendirme</h2>
+                <div class="space-y-4">
+                    <input id="adminEmail" type="email" placeholder="Admin E-posta" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl">
+                    <input id="adminPass" type="password" placeholder="Admin Şifre" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl">
+                    <button onclick="loginAdmin()" class="w-full bg-red-600 hover:bg-red-700 py-3 rounded-xl font-bold">Panele Gir</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. ADMIN PANELİ (GİZLİ) -->
+        <section id="tab-admin-panel" class="hidden-tab">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Sol: Numara Ekle -->
+                <div class="glass p-6 rounded-3xl">
+                    <h3 class="text-lg font-bold mb-4 text-blue-400">Yeni Numara Ekle</h3>
+                    <div class="space-y-4">
+                        <input id="newPhone" type="text" placeholder="+380..." class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl font-mono">
+                        <button onclick="addNumber()" class="w-full bg-green-600 hover:bg-green-700 py-3 rounded-xl font-bold">Sisteme Tanımla</button>
+                    </div>
+                </div>
+                <!-- Sağ: İstatistikler ve Yönetim -->
+                <div class="lg:col-span-2 glass p-6 rounded-3xl">
+                    <h3 class="text-lg font-bold mb-4">Sistem Durumu</h3>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                            <p class="text-xs text-slate-500">Toplam Kazanç</p>
+                            <p class="text-2xl font-bold text-green-400">$0.00</p>
+                        </div>
+                        <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700">
+                            <p class="text-xs text-slate-500">Aktif Hatlar</p>
+                            <p id="statActiveLines" class="text-2xl font-bold text-blue-400">0</p>
+                        </div>
+                    </div>
+                    <button onclick="masterReset()" class="text-xs text-red-500 hover:underline">Tüm KV Verilerini Temizle (Reset)</button>
+                </div>
+            </div>
+        </section>
+
     </div>
 
-    <!-- ADMIN BÖLÜMÜ -->
-    <div id="admin" class="tab-content p-8">
-        <div class="max-w-md mx-auto bg-slate-800 p-6 rounded-lg">
-            <h2 class="text-xl mb-4 text-red-400">Yeni Numara Ekle</h2>
-            <input id="adminToken" type="password" placeholder="Admin Şifresi" class="w-full p-2 mb-2 bg-slate-700 rounded">
-            <input id="newPhone" type="text" placeholder="+380XXXXXXXXX" class="w-full p-2 mb-4 bg-slate-700 rounded">
-            <button onclick="addNumber()" class="w-full bg-green-600 py-2 rounded">Sisteme Ekle</button>
+    <!-- SMS MODAL -->
+    <div id="smsModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div class="glass p-10 rounded-[40px] max-w-sm w-full text-center border-blue-500/30">
+            <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(37,99,235,0.4)]">
+                <i class="fa-solid fa-message text-2xl"></i>
+            </div>
+            <p id="modalPhone" class="text-slate-400 font-mono mb-2"></p>
+            <h3 id="modalStatus" class="text-xl font-bold mb-8">KOD BEKLENİYOR</h3>
+            <div id="modalCode" class="text-6xl font-black tracking-[0.2em] text-white mb-8">------</div>
+            <button onclick="closeModal()" class="w-full bg-slate-800 py-4 rounded-2xl font-bold hover:bg-slate-700 transition">Kapat</button>
         </div>
     </div>
 
 <script>
     const API = "https://simoq.hasan-antalya98.workers.dev";
+    let currentUser = null;
+    let adminToken = "";
 
-    function showTab(id) {
-        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        if(id === 'customer') loadNumbers();
+    function switchTab(id) {
+        document.querySelectorAll('section').forEach(s => s.className = 'hidden-tab');
+        document.getElementById('tab-' + id).className = 'active-tab';
     }
 
-    // Numaraları Yükle
+    // --- MÜŞTERİ İŞLEMLERİ ---
+    async function loginUser() {
+        const email = document.getElementById('authEmail').value;
+        if(!email) return alert("E-posta girin!");
+        currentUser = email;
+        document.getElementById('navButtons').classList.add('hidden');
+        document.getElementById('userProfile').classList.remove('hidden');
+        document.getElementById('userNameDisplay').innerText = email;
+        switchTab('customer');
+        loadNumbers();
+    }
+
     async function loadNumbers() {
         const res = await fetch(`${API}/list-numbers`);
         const numbers = await res.json();
         const grid = document.getElementById('numberGrid');
+        document.getElementById('statActiveLines').innerText = numbers.length;
+        
+        if(numbers.length === 0) {
+            grid.innerHTML = `<div class="col-span-full text-center p-20 border-2 border-dashed border-slate-800 rounded-3xl text-slate-500">Henüz numara eklenmedi.</div>`;
+            return;
+        }
+
         grid.innerHTML = numbers.map(n => `
-            <div class="bg-slate-700 p-4 rounded text-center border border-slate-600">
-                <p class="font-mono mb-2">${n}</p>
-                <button onclick="buyNumber('${n}')" class="bg-blue-500 text-xs px-2 py-1 rounded">Satın Al</button>
+            <div class="glass p-6 rounded-3xl hover:border-blue-500/50 transition-all group">
+                <div class="flex justify-between mb-6">
+                    <span class="bg-blue-600/10 text-blue-500 text-[10px] font-bold px-3 py-1 rounded-full border border-blue-500/10">UKRAYNA</span>
+                    <i class="fa-solid fa-signal text-green-500"></i>
+                </div>
+                <div class="text-2xl font-mono font-bold mb-6">${n}</div>
+                <button onclick="getSMS('${n}')" class="w-full bg-white text-black py-3 rounded-2xl font-bold group-hover:bg-blue-600 group-hover:text-white transition-all shadow-xl">KODU AL ($1.00)</button>
             </div>
         `).join('');
     }
 
-    // Numara Satın Al (2 hafta kilitle)
-    async function buyNumber(phone) {
-        if(!confirm(phone + " numarasını kiralamak istiyor musunuz?")) return;
-        await fetch(`${API}/buy`, {
-            method: 'POST',
-            body: JSON.stringify({ phone })
-        });
-        alert("Satın alındı! Numara 2 hafta boyunca listeden kaldırıldı.");
-        loadNumbers();
+    async function getSMS(phone) {
+        if(!confirm(phone + " için kod alma işlemi başlatılsın mı?")) return;
+        
+        await fetch(`${API}/buy`, { method: 'POST', body: JSON.stringify({ phone }) });
+        
+        document.getElementById('smsModal').classList.remove('hidden');
+        document.getElementById('modalPhone').innerText = phone;
+        
+        const timer = setInterval(async () => {
+            const res = await fetch(`${API}/get-code?phone=${encodeURIComponent(phone)}`);
+            const data = await res.json();
+            if(data.success) {
+                document.getElementById('modalCode').innerText = data.code;
+                document.getElementById('modalStatus').innerText = "KOD ALINDI!";
+                document.getElementById('modalStatus').classList.add('text-green-500');
+                clearInterval(timer);
+            }
+        }, 4000);
     }
 
-    // Admin: Numara Ekle
+    // --- ADMIN İŞLEMLERİ ---
+    function loginAdmin() {
+        const email = document.getElementById('adminEmail').value;
+        const pass = document.getElementById('adminPass').value;
+        // GÜVENLİK: Admin bilgileri
+        if(email === "dev@simoq.com" && pass === "Hatice0772") {
+            adminToken = pass;
+            switchTab('admin-panel');
+        } else {
+            alert("Hatalı Admin Bilgileri!");
+        }
+    }
+
     async function addNumber() {
-        const token = document.getElementById('adminToken').value;
         const phone = document.getElementById('newPhone').value;
         const res = await fetch(`${API}/admin/add`, {
             method: 'POST',
-            body: JSON.stringify({ token, phone })
+            body: JSON.stringify({ token: adminToken, phone })
         });
-        if(res.ok) { alert("Başarıyla eklendi!"); loadNumbers(); }
-        else { alert("Yetki hatası!"); }
+        if(res.ok) { alert("Numara Eklendi!"); loadNumbers(); }
     }
 
-    // İlk yükleme
-    loadNumbers();
+    function logout() { location.reload(); }
+    function closeModal() { document.getElementById('smsModal').classList.add('hidden'); loadNumbers(); }
 </script>
 </body>
 </html>
