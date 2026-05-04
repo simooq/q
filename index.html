@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Simoq | Hızlı SMS Onay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { -webkit-user-select: none; user-select: none; background: #0f172a; color: white; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body oncontextmenu="return false" onkeydown="if(event.keyCode==123) return false;">
+
+<div class="min-h-screen flex items-center justify-center p-4">
+    <div class="glass p-8 rounded-2xl border border-slate-700 w-full max-w-md shadow-2xl">
+        <h1 class="text-2xl font-bold text-center text-blue-400 mb-6 italic underline">Simoq Auto-Pay</h1>
+        
+        <div class="space-y-4">
+            <div class="p-4 bg-slate-800 rounded-lg border border-slate-600">
+                <p class="text-sm text-slate-400">Aktif Numara:</p>
+                <p id="targetPhone" class="text-xl font-mono text-green-400 font-bold">+380 XX XXX XX XX</p>
+            </div>
+
+            <button onclick="startOrder()" id="payBtn" class="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-xl font-bold transition-all transform active:scale-95">
+                ÖDEMEYİ YAP VE KODU AL
+            </button>
+
+            <div id="statusBox" class="hidden p-4 bg-yellow-900/30 border border-yellow-600 rounded-lg text-center">
+                <p id="statusText" class="text-yellow-400 animate-pulse">Ödeme Bekleniyor...</p>
+                <p id="finalCode" class="text-4xl font-bold text-white mt-2"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_URL = "https://simoq.hasan-antalya98.workers.dev";
+    let selectedNumber = "+380631234567"; // Bu numarayı manuel veya API ile çekebilirsin
+
+    async function startOrder() {
+        document.getElementById('payBtn').disabled = true;
+        document.getElementById('statusBox').classList.remove('hidden');
+        
+        // Buraya kendi ödeme linkini (Kripto/Stripe) ekleyebilirsin
+        alert("Ödeme alındı varsayılıyor... Sistem kodu bekliyor.");
+
+        // OTOMATİK SORGULAMA DÖNGÜSÜ
+        const checkInterval = setInterval(async () => {
+            try {
+                const res = await fetch(`${API_URL}/get-code?phone=${selectedNumber}`);
+                const data = await res.json();
+
+                if (data.success) {
+                    document.getElementById('statusText').innerText = "KOD GELDİ!";
+                    document.getElementById('statusText').classList.replace('text-yellow-400', 'text-green-400');
+                    document.getElementById('finalCode').innerText = data.code;
+                    clearInterval(checkInterval);
+                }
+            } catch (e) { console.log("Hata: Sunucu meşgul."); }
+        }, 4000); // 4 saniyede bir sor
+    }
+
+    // Basit Hack Koruması
+    document.onkeydown = function(e) {
+        if(e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 73)) return false;
+    };
+</script>
+</body>
+</html>
