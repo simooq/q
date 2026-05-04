@@ -2,198 +2,196 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>SIMOQ | Güvenilir Ukrayna SMS Onay Servisi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMOQ | Premium Ukrayna SMS Onay</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
-        body { background-color: #030712; color: #f3f4f6; font-family: 'Outfit', sans-serif; scroll-behavior: smooth; }
-        .hero-gradient { background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #030712 100%); }
-        .glass { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.05); }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        body { background-color: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
+        .nav-active { border-bottom: 2px solid #6366f1; color: #6366f1; }
         .tab-content { display: none; }
-        .active-tab { display: block; animation: scaleUp 0.4s ease; }
-        @keyframes scaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        .glow-button { background: linear-gradient(90deg, #4f46e5, #9333ea); box-shadow: 0 0 20px rgba(79, 70, 229, 0.4); }
+        .active-tab { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .service-card:hover { border-color: #6366f1; transform: translateY(-5px); }
     </style>
 </head>
 <body>
 
     <!-- NAVBAR -->
-    <nav class="fixed w-full z-50 glass px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-2">
-            <i class="fa-solid fa-bolt-lightning text-yellow-400 text-2xl"></i>
-            <span class="text-2xl font-extrabold tracking-tight">SIMOQ</span>
+    <nav class="fixed w-full z-50 glass px-6 py-4 flex justify-between items-center border-b border-white/5">
+        <div class="flex items-center gap-3">
+            <div class="bg-indigo-600 p-2 rounded-lg text-white"><i class="fa-solid fa-microchip"></i></div>
+            <span class="text-xl font-extrabold tracking-tighter">SIMOQ<span class="text-indigo-500">PRO</span></span>
         </div>
-        <div id="nav-actions" class="flex gap-4">
-            <button onclick="showSection('login')" class="text-sm font-semibold hover:text-indigo-400 transition">Giriş Yap</button>
-            <button onclick="showSection('login')" class="glow-button px-5 py-2 rounded-full text-sm font-bold">Hemen Kayıt Ol</button>
+        <div id="nav-auth" class="flex gap-4 items-center">
+            <button onclick="showTab('auth')" class="text-sm font-semibold hover:text-indigo-400">Giriş Yap</button>
+            <button onclick="showTab('auth')" class="bg-indigo-600 hover:bg-indigo-700 px-5 py-2 rounded-full text-sm font-bold transition">Kayıt Ol</button>
         </div>
-        <div id="user-info" class="hidden flex items-center gap-4 text-sm font-medium">
-            <span id="user-mail" class="text-indigo-400"></span>
-            <button onclick="location.reload()" class="bg-white/5 px-3 py-1 rounded-md">Çıkış</button>
+        <div id="nav-user" class="hidden flex items-center gap-4">
+            <span id="user-display" class="text-xs font-mono text-slate-400"></span>
+            <button onclick="location.reload()" class="bg-white/5 px-3 py-1 rounded text-xs">Çıkış</button>
         </div>
     </nav>
 
-    <!-- HERO SECTION (Giriş Yapılmadığında Görünür) -->
-    <section id="hero" class="hero-gradient min-h-screen flex flex-col items-center justify-center text-center px-4 pt-20">
-        <h1 class="text-6xl md:text-8xl font-black mb-6 tracking-tighter">
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500">GÜVENİLİR</span> SMS ONAY
-        </h1>
-        <p class="max-w-2xl text-slate-400 text-lg mb-10">
-            Ukrayna'nın en hızlı altyapısıyla WhatsApp, Telegram ve yüzlerce servis için anında onay kodu. 
-            Fiziksel hat güvencesiyle banlanma riski yok!
-        </p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl w-full text-sm">
-            <div class="glass p-6 rounded-2xl"><i class="fa-solid fa-shield-halved text-indigo-500 mb-3 text-xl"></i><br><b>%100 Güven</b><br>Kişisel verileriniz asla tutulmaz.</div>
-            <div class="glass p-6 rounded-2xl"><i class="fa-solid fa-bolt text-yellow-500 mb-3 text-xl"></i><br><b>Anlık Teslimat</b><br>Kodunuz saniyeler içinde ekranda.</div>
-            <div class="glass p-6 rounded-2xl"><i class="fa-solid fa-headset text-green-500 mb-3 text-xl"></i><br><b>7/24 Destek</b><br>Kyiv merkezli uzman ekip.</div>
+    <!-- ANA SAYFA (LANDING) -->
+    <section id="tab-home" class="active-tab pt-32 pb-20 px-6 max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+            <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">Güvenilir Fiziksel Hatlarla<br><span class="text-indigo-500 italic">Anında Onay</span></h1>
+            <p class="text-slate-400 max-w-2xl mx-auto text-lg mb-10">Ukrayna merkezli, %100 fiziksel SIM kart altyapısı. Telegram, WhatsApp ve yüzlerce servis için banlanma riski olmadan SMS onayını saniyeler içinde alın.</p>
+            <div class="flex flex-wrap justify-center gap-4 mb-20 text-sm">
+                <div class="glass px-6 py-3 rounded-2xl border-green-500/20"><i class="fa-solid fa-check text-green-500 mr-2"></i> %100 Ukrayna Fiziksel Hat</div>
+                <div class="glass px-6 py-3 rounded-2xl border-blue-500/20"><i class="fa-solid fa-bolt text-yellow-500 mr-2"></i> 2 Saniyede Teslimat</div>
+                <div class="glass px-6 py-3 rounded-2xl border-purple-500/20"><i class="fa-solid fa-lock text-purple-500 mr-2"></i> 14 Gün Gizlilik Garantisi</div>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 opacity-60">
+                <div class="p-4 border border-white/5 rounded-xl"><i class="fa-brands fa-whatsapp text-3xl mb-2"></i><p>WhatsApp</p></div>
+                <div class="p-4 border border-white/5 rounded-xl"><i class="fa-brands fa-telegram text-3xl mb-2"></i><p>Telegram</p></div>
+                <div class="p-4 border border-white/5 rounded-xl"><i class="fa-brands fa-steam text-3xl mb-2"></i><p>Steam</p></div>
+                <div class="p-4 border border-white/5 rounded-xl"><i class="fa-brands fa-viber text-3xl mb-2"></i><p>Viber</p></div>
+            </div>
         </div>
     </section>
 
-    <!-- AUTH & LOGIN MODAL -->
-    <section id="section-login" class="tab-content fixed inset-0 z-[60] bg-black/90 flex items-center justify-center p-4">
-        <div class="glass p-10 rounded-[2.5rem] w-full max-w-md relative">
-            <button onclick="showSection('hero')" class="absolute top-6 right-6 text-slate-500"><i class="fa-solid fa-xmark text-2xl"></i></button>
-            <h2 class="text-3xl font-bold mb-2">Hoş Geldiniz</h2>
-            <p class="text-slate-400 mb-8 italic">Ultra hızlı onay dünyasına adım atın.</p>
+    <!-- GİRİŞ / KAYIT TAB -->
+    <section id="tab-auth" class="tab-content pt-32 px-6">
+        <div class="max-w-md mx-auto glass p-10 rounded-[2.5rem]">
+            <h2 class="text-3xl font-bold mb-8">Hesaba Eriş</h2>
             <div class="space-y-4">
-                <input id="email" type="email" placeholder="E-posta" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl focus:border-indigo-500 outline-none">
-                <input id="pass" type="password" placeholder="Şifre" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl focus:border-indigo-500 outline-none">
-                <button onclick="handleLogin()" class="w-full glow-button py-4 rounded-2xl font-bold text-lg">HESABIMA GİRİŞ YAP</button>
+                <input id="email" type="email" placeholder="E-posta Adresiniz" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-indigo-500">
+                <input id="pass" type="password" placeholder="Şifreniz" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-indigo-500">
+                <button onclick="login()" class="w-full bg-indigo-600 hover:bg-indigo-700 py-4 rounded-2xl font-bold text-lg shadow-lg">Giriş Yap / Kayıt Ol</button>
             </div>
         </div>
     </section>
 
     <!-- MÜŞTERİ PANELİ -->
-    <section id="section-customer" class="tab-content pt-32 px-6 max-w-6xl mx-auto pb-20">
+    <section id="tab-customer" class="tab-content pt-32 px-6 max-w-6xl mx-auto">
         <div class="flex justify-between items-end mb-10">
-            <h2 class="text-4xl font-black">NUMARA MARKETİ</h2>
-            <div class="glass px-6 py-2 rounded-xl border-indigo-500/30">Bakiye: <span class="text-green-400 font-bold">$0.00</span></div>
+            <div>
+                <h2 class="text-3xl font-extrabold mb-2 italic">Numara Havuzu</h2>
+                <p class="text-slate-400">Onay kodu almak istediğiniz numarayı seçin.</p>
+            </div>
+            <div class="glass px-6 py-3 rounded-2xl"><p class="text-xs text-slate-500">Bakiye</p><p class="text-xl font-bold text-green-400">$0.00</p></div>
         </div>
-        <div id="numberGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Numaralar Buraya Dinamik Gelecek -->
-        </div>
+        <div id="number-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
     </section>
 
     <!-- ADMIN PANELİ -->
-    <section id="section-admin" class="tab-content pt-32 px-6 max-w-4xl mx-auto">
-        <div class="glass p-8 rounded-[3rem] border-red-500/20">
-            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3 text-red-500">
-                <i class="fa-solid fa-unlock-keyhole"></i> ADMIN KONTROL MERKEZİ
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <section id="tab-admin" class="tab-content pt-32 px-6 max-w-4xl mx-auto">
+        <div class="glass p-8 rounded-[2.5rem] border-red-500/20">
+            <h2 class="text-2xl font-bold mb-8 text-red-500 underline"><i class="fa-solid fa-screwdriver-wrench mr-2"></i>Yönetici Paneli</h2>
+            <div class="grid md:grid-cols-2 gap-10">
                 <div>
-                    <h3 class="text-sm font-bold text-slate-500 mb-4 uppercase tracking-widest">Numara Yönetimi</h3>
-                    <div class="space-y-4">
-                        <input id="newPhone" type="text" placeholder="+380..." class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl font-mono">
-                        <button onclick="addNumber()" class="w-full bg-indigo-600 hover:bg-indigo-700 py-4 rounded-2xl font-bold">SİSTEME EKLE</button>
-                    </div>
+                    <label class="block text-sm font-bold mb-3 text-slate-400 uppercase tracking-widest">Yeni Hat Tanımla</label>
+                    <input id="new-phone" type="text" placeholder="+380XXXXXXXXX" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl font-mono mb-4">
+                    <button onclick="addNumber()" class="w-full bg-green-600 hover:bg-green-700 py-4 rounded-2xl font-bold">VERİTABANINA EKLE</button>
                 </div>
-                <div class="bg-indigo-600/10 p-6 rounded-3xl border border-indigo-500/20">
-                    <h3 class="text-sm font-bold text-slate-500 mb-4 uppercase tracking-widest">İstatistikler</h3>
-                    <p class="text-xs text-slate-400 mb-2">Sistemdeki Aktif Hat Sayısı:</p>
-                    <p id="statLines" class="text-4xl font-black text-indigo-400">0</p>
+                <div class="bg-indigo-600/5 p-6 rounded-3xl border border-indigo-500/10">
+                    <p class="text-sm text-slate-500 mb-2">Bugünkü Trafik</p>
+                    <p id="stat-count" class="text-4xl font-black">0</p>
+                    <hr class="my-4 border-white/5">
+                    <p class="text-xs text-slate-500 uppercase">Sistem Durumu: <span class="text-green-500">Aktif</span></p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SMS KOD MODAL -->
-    <div id="smsModal" class="hidden fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4">
-        <div class="glass p-12 rounded-[3.5rem] max-w-sm w-full text-center border-indigo-500/30">
-            <div class="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-8 animate-pulse">
-                <i class="fa-solid fa-message-sms text-3xl"></i>
+    <!-- SMS MODAL -->
+    <div id="sms-modal" class="hidden fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4">
+        <div class="glass p-12 rounded-[3rem] max-w-sm w-full text-center border-indigo-500/40">
+            <div class="relative w-20 h-20 mx-auto mb-8">
+                <div class="absolute inset-0 bg-indigo-500 rounded-full animate-ping opacity-20"></div>
+                <div class="relative w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center text-3xl"><i class="fa-solid fa-comment-sms"></i></div>
             </div>
-            <p id="modalPhone" class="text-indigo-400 font-mono mb-2"></p>
-            <h3 id="modalStatus" class="text-xl font-bold mb-10">SMS BEKLENİYOR...</h3>
-            <div id="modalCode" class="text-7xl font-black text-white tracking-widest mb-10">------</div>
-            <button onclick="closeModal()" class="w-full bg-white/5 py-4 rounded-2xl font-bold hover:bg-white/10 transition">KAPAT</button>
+            <p id="modal-phone" class="text-indigo-400 font-mono mb-2"></p>
+            <h3 id="modal-status" class="text-xl font-bold mb-10 italic">SMS BEKLENİYOR...</h3>
+            <div id="modal-code" class="text-6xl font-black tracking-widest mb-10 text-white">------</div>
+            <button onclick="closeModal()" class="w-full bg-white/5 hover:bg-white/10 py-4 rounded-2xl font-bold">İptal Et ve Kapat</button>
         </div>
     </div>
 
 <script>
     const API = "https://simoq.hasan-antalya98.workers.dev";
-    const ADMIN_CREDENTIALS = { email: "admin@simoq.com", pass: "simoq2026", token: "GIZLI_ADMIN_SIFRESI_123" };
+    const ADMIN_CRED = { email: "admin@simoq.com", pass: "simoq2026", token: "GIZLI_ADMIN_SIFRESI_123" };
 
-    function showSection(id) {
-        document.querySelectorAll('.tab-content').forEach(s => s.classList.remove('active-tab'));
-        if(id === 'hero') {
-            document.getElementById('hero').style.display = 'flex';
-        } else {
-            document.getElementById('hero').style.display = 'none';
-            document.getElementById('section-' + id).classList.add('active-tab');
-        }
+    function showTab(id) {
+        document.querySelectorAll('section').forEach(s => s.classList.remove('active-tab'));
+        document.getElementById('tab-' + id).classList.add('active-tab');
+        if(id !== 'home') window.scrollTo(0, 0);
     }
 
-    function handleLogin() {
+    function login() {
         const email = document.getElementById('email').value;
         const pass = document.getElementById('pass').value;
+        if(!email || !pass) return alert("Bilgileri girin!");
 
-        if(!email || !pass) return alert("Bilgileri doldur!");
+        document.getElementById('nav-auth').classList.add('hidden');
+        document.getElementById('nav-user').classList.remove('hidden');
+        document.getElementById('user-display').innerText = email;
 
-        document.getElementById('nav-actions').classList.add('hidden');
-        document.getElementById('user-info').classList.remove('hidden');
-        document.getElementById('user-mail').innerText = email;
-
-        if(email === ADMIN_CREDENTIALS.email && pass === ADMIN_CREDENTIALS.pass) {
-            showSection('admin');
+        if(email === ADMIN_CRED.email && pass === ADMIN_CRED.pass) {
+            showTab('admin');
         } else {
-            showSection('customer');
-            loadNumbers();
+            showTab('customer');
+            fetchNumbers();
         }
     }
 
-    async function loadNumbers() {
+    async function fetchNumbers() {
         const res = await fetch(`${API}/list-numbers`);
         const numbers = await res.json();
-        const grid = document.getElementById('numberGrid');
-        document.getElementById('statLines').innerText = numbers.length;
+        const grid = document.getElementById('number-grid');
+        document.getElementById('stat-count').innerText = numbers.length;
         
         if(numbers.length === 0) {
-            grid.innerHTML = `<div class="col-span-full py-20 text-center glass rounded-[2.5rem] border-dashed border-white/10 text-slate-500">Maalesef şu an boşta numara yok. Lütfen daha sonra tekrar deneyin.</div>`;
+            grid.innerHTML = `<div class="col-span-full py-20 text-center glass rounded-3xl border-dashed border-white/10 text-slate-500 italic">Şu an havuzda aktif numara bulunmuyor.</div>`;
             return;
         }
 
         grid.innerHTML = numbers.map(n => `
-            <div class="glass p-8 rounded-[2.5rem] group hover:border-indigo-500/50 transition-all">
-                <div class="flex justify-between items-center mb-6">
-                    <span class="text-[10px] bg-indigo-500/20 text-indigo-400 px-3 py-1 rounded-full font-bold border border-indigo-500/10 uppercase tracking-widest">Ukrayna Hat</span>
-                    <span class="text-green-500 text-xs font-bold"><i class="fa-solid fa-signal mr-1"></i> AKTİF</span>
+            <div class="glass p-8 rounded-[2.5rem] service-card transition-all group">
+                <div class="flex justify-between mb-6">
+                    <span class="text-[10px] bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded-full font-bold uppercase tracking-widest border border-indigo-500/10">Ukrayna Fiziki</span>
+                    <i class="fa-solid fa-signal text-green-500"></i>
                 </div>
-                <p class="text-2xl font-mono font-black mb-8">${n}</p>
-                <button onclick="buyAndGetCode('${n}')" class="w-full bg-indigo-600 hover:bg-indigo-700 py-4 rounded-2xl font-bold transition">KODU AL ($1.00)</button>
+                <h4 class="text-2xl font-mono font-black mb-8">${n}</h4>
+                <button onclick="rentNumber('${n}')" class="w-full bg-white text-black py-4 rounded-2xl font-bold group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-xl">KİRALIK ($1.00)</button>
             </div>
         `).join('');
     }
 
     async function addNumber() {
-        const phone = document.getElementById('newPhone').value;
+        const phone = document.getElementById('new-phone').value;
         const res = await fetch(`${API}/admin/add`, {
             method: 'POST',
-            body: JSON.stringify({ token: ADMIN_CREDENTIALS.token, phone })
+            body: JSON.stringify({ token: ADMIN_CRED.token, phone })
         });
-        if(res.ok) { alert("Numara Başarıyla Eklendi!"); document.getElementById('newPhone').value = ""; loadNumbers(); }
+        if(res.ok) { alert("Hat başarıyla eklendi!"); fetchNumbers(); }
     }
 
-    async function buyAndGetCode(phone) {
-        if(!confirm(phone + " için onay işlemini başlatıyorsunuz. Hazır mısınız?")) return;
+    async function rentNumber(phone) {
+        if(!confirm(phone + " numarasını kiralamak istiyor musunuz?")) return;
         await fetch(`${API}/buy`, { method: 'POST', body: JSON.stringify({ phone }) });
-        document.getElementById('smsModal').classList.remove('hidden');
-        document.getElementById('modalPhone').innerText = phone;
+        
+        document.getElementById('sms-modal').classList.remove('hidden');
+        document.getElementById('modal-phone').innerText = phone;
         
         const check = setInterval(async () => {
             const res = await fetch(`${API}/get-code?phone=${encodeURIComponent(phone)}`);
             const data = await res.json();
             if(data.success) {
-                document.getElementById('modalCode').innerText = data.code;
-                document.getElementById('modalStatus').innerText = "KOD BAŞARIYLA ALINDI!";
-                document.getElementById('modalStatus').classList.add('text-green-500');
+                document.getElementById('modal-code').innerText = data.code;
+                document.getElementById('modal-status').innerText = "KOD ALINDI!";
+                document.getElementById('modal-status').classList.replace('italic', 'text-green-500');
                 clearInterval(check);
             }
-        }, 5000);
+        }, 4000);
     }
 
-    function closeModal() { document.getElementById('smsModal').classList.add('hidden'); loadNumbers(); }
+    function closeModal() { document.getElementById('sms-modal').classList.add('hidden'); fetchNumbers(); }
 </script>
 </body>
 </html>
