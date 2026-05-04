@@ -1,313 +1,67 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMOQ PRO | Global SMS Activation</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
-        body { background: #05070a; color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; }
-        .glass { background: rgba(13, 17, 23, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
-        .tab-content { display: none; }
-        .active-tab { display: block; animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-        .gradient-text { background: linear-gradient(90deg, #6366f1, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .platform-btn:hover { background: rgba(99, 102, 241, 0.15); border-color: #6366f1; transform: translateY(-2px); }
-    </style>
-</head>
-<body>
-
-    <!-- NAV -->
-    <nav class="fixed w-full z-50 glass px-8 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-3 cursor-pointer" onclick="showTab('home')">
-            <div class="bg-indigo-600 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                <i class="fa-solid fa-shield-halved text-white"></i>
-            </div>
-            <span class="text-2xl font-black tracking-tighter">SIMOQ<span class="text-indigo-500">PRO</span></span>
-        </div>
-        <div id="nav-auth" class="flex gap-6 items-center">
-            <button onclick="showTab('auth')" class="text-sm font-bold text-slate-400 hover:text-white transition">Giriş Yap</button>
-            <button onclick="showTab('auth')" class="bg-indigo-600 px-6 py-2.5 rounded-full text-sm font-black hover:bg-indigo-500 transition">Kayıt Ol</button>
-        </div>
-        <div id="nav-user" class="hidden flex items-center gap-6">
-            <div class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
-                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span id="user-display" class="text-xs font-bold text-slate-300"></span>
-            </div>
-            <button onclick="location.reload()" class="text-xs text-red-500 font-bold">ÇIKIŞ</button>
-        </div>
-    </nav>
-
-    <!-- LANDING / HOME -->
-    <section id="tab-home" class="active-tab pt-40 pb-20 px-6 max-w-6xl mx-auto">
-        <div class="text-center">
-            <span class="bg-indigo-500/10 text-indigo-400 px-4 py-1.5 rounded-full text-xs font-black border border-indigo-500/20 mb-6 inline-block uppercase tracking-widest">KYIV/UKRAINE PHYSICAL SIM HUB</span>
-            <h1 class="text-6xl md:text-8xl font-black mb-8 leading-none tracking-tight">Onay Kodu Beklemeye<br><span class="gradient-text italic">SON VERİN.</span></h1>
-            <p class="text-slate-400 max-w-2xl mx-auto text-xl mb-12 font-medium">Fiziksel hat güvencesiyle WhatsApp, Telegram, Steam ve 500+ servis için anında SMS onayı. Bot değil, gerçek hat.</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
-                <div class="glass p-8 rounded-3xl text-left border-l-4 border-l-indigo-500">
-                    <i class="fa-solid fa-bolt-lightning text-3xl text-indigo-500 mb-4"></i>
-                    <h3 class="text-xl font-black mb-2">Işık Hızında</h3>
-                    <p class="text-slate-500 text-sm">Kodunuz sisteme düştüğü an ekranınızda belirir. Saniyeler önemlidir.</p>
-                </div>
-                <div class="glass p-8 rounded-3xl text-left border-l-4 border-l-green-500">
-                    <i class="fa-solid fa-fingerprint text-3xl text-green-500 mb-4"></i>
-                    <h3 class="text-xl font-black mb-2">Sıfır Risk</h3>
-                    <p class="text-slate-500 text-sm">Fiziksel SIM kartlar sayesinde banlanma riski VOIP numaralara göre %99 daha azdır.</p>
-                </div>
-                <div class="glass p-8 rounded-3xl text-left border-l-4 border-l-purple-500">
-                    <i class="fa-solid fa-headset text-3xl text-purple-500 mb-4"></i>
-                    <h3 class="text-xl font-black mb-2">7/24 Destek</h3>
-                    <p class="text-slate-500 text-sm">Kyiv merkezli teknik ekibimiz her an yanınızda.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- AUTH SECTION -->
-    <section id="tab-auth" class="tab-content pt-40 px-6">
-        <div class="max-w-md mx-auto glass p-10 rounded-[3rem] border border-white/10">
-            <h2 class="text-4xl font-black mb-8 text-center">Giriş Yap</h2>
-            <div class="space-y-5">
-                <input id="email" type="email" placeholder="E-posta" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-indigo-500 transition">
-                <input id="pass" type="password" placeholder="Şifre" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-indigo-500 transition">
-                <button onclick="login()" class="w-full bg-indigo-600 py-5 rounded-2xl font-black text-lg shadow-xl shadow-indigo-600/20 hover:scale-[1.02] transition">SİSTEME BAĞLAN</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- MÜŞTERİ PANELİ -->
-    <section id="tab-customer" class="tab-content pt-32 px-6 max-w-7xl mx-auto">
-        <div class="flex justify-between items-center mb-12">
-            <h2 class="text-4xl font-black italic uppercase">Market <span class="text-indigo-500">Alanı</span></h2>
-            <div class="flex gap-4">
-                <div class="glass px-6 py-3 rounded-2xl border-indigo-500/30 text-center">
-                    <p class="text-[10px] text-slate-500 font-black uppercase">Cüzdan</p>
-                    <p class="text-xl font-black text-green-400">$0.00</p>
-                </div>
-            </div>
-        </div>
-        <div id="number-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20"></div>
-    </section>
-
-    <!-- ADMIN PANELİ -->
-    <section id="tab-admin" class="tab-content pt-32 px-6 max-w-7xl mx-auto pb-20">
-        <div class="glass p-10 rounded-[3rem] border-red-500/20 mb-10">
-            <div class="flex justify-between items-center mb-10">
-                <h2 class="text-3xl font-black text-red-500 uppercase italic underline decoration-4 underline-offset-8">Admin Dashboard</h2>
-                <button onclick="fetchAdminData()" class="bg-white/5 px-4 py-2 rounded-xl text-xs font-bold hover:bg-white/10">VERİLERİ YENİLE</button>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-6 mb-12">
-                <div class="bg-indigo-600 p-6 rounded-3xl">
-                    <p class="text-indigo-200 text-xs font-bold uppercase mb-2">Toplam Stok</p>
-                    <h4 id="stat-total" class="text-4xl font-black">0</h4>
-                </div>
-                <div class="bg-white/5 border border-white/10 p-6 rounded-3xl text-center">
-                    <input id="new-phone" type="text" placeholder="+380..." class="bg-transparent border-b border-white/20 w-full mb-4 p-2 text-center text-xl font-mono outline-none">
-                    <button onclick="manageNumber('add')" class="w-full bg-green-600 py-3 rounded-xl font-bold hover:bg-green-500 transition">YENİ HAT EKLE</button>
-                </div>
-            </div>
-
-            <div class="overflow-hidden rounded-3xl border border-white/10">
-                <table class="w-full text-left">
-                    <thead class="bg-white/5 text-xs font-black uppercase text-slate-500">
-                        <tr>
-                            <th class="p-5">Telefon</th>
-                            <th class="p-5">Durum</th>
-                            <th class="p-5">Kullanım</th>
-                            <th class="p-5">Son Platform</th>
-                            <th class="p-5">İşlem</th>
-                        </tr>
-                    </thead>
-                    <tbody id="admin-table-body" class="text-sm font-medium"></tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- MODAL: PLATFORM SEÇİMİ -->
-    <div id="platform-modal" class="hidden fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4 backdrop-blur-md">
-        <div class="glass p-10 rounded-[3.5rem] max-w-2xl w-full text-center">
-            <h3 id="selected-phone" class="text-3xl font-black mb-2 text-indigo-400"></h3>
-            <p class="text-slate-400 mb-10 font-bold">Lütfen işlem yapacağınız platformu seçin:</p>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-                <button onclick="confirmRent('WhatsApp')" class="platform-btn border border-white/10 p-6 rounded-3xl flex flex-col items-center gap-3 transition">
-                    <i class="fa-brands fa-whatsapp text-4xl text-green-500"></i><span class="text-xs font-black">WhatsApp</span>
-                </button>
-                <button onclick="confirmRent('Telegram')" class="platform-btn border border-white/10 p-6 rounded-3xl flex flex-col items-center gap-3 transition">
-                    <i class="fa-brands fa-telegram text-4xl text-blue-400"></i><span class="text-xs font-black">Telegram</span>
-                </button>
-                <button onclick="confirmRent('Steam')" class="platform-btn border border-white/10 p-6 rounded-3xl flex flex-col items-center gap-3 transition">
-                    <i class="fa-brands fa-steam text-4xl text-slate-300"></i><span class="text-xs font-black">Steam</span>
-                </button>
-                <button onclick="confirmRent('Instagram')" class="platform-btn border border-white/10 p-6 rounded-3xl flex flex-col items-center gap-3 transition">
-                    <i class="fa-brands fa-instagram text-4xl text-pink-500"></i><span class="text-xs font-black">Instagram</span>
-                </button>
-                <button onclick="confirmRent('Twitch')" class="platform-btn border border-white/10 p-6 rounded-3xl flex flex-col items-center gap-3 transition">
-                    <i class="fa-brands fa-twitch text-4xl text-purple-500"></i><span class="text-xs font-black">Twitch</span>
-                </button>
-                <button onclick="confirmRent('Viber')" class="platform-btn border border-white/10 p-6 rounded-3xl flex flex-col items-center gap-3 transition">
-                    <i class="fa-brands fa-viber text-4xl text-purple-400"></i><span class="text-xs font-black">Viber</span>
-                </button>
-                <button onclick="confirmRent('Discord')" class="platform-btn border border-white/10 p-6 rounded-3xl flex flex-col items-center gap-3 transition">
-                    <i class="fa-brands fa-discord text-4xl text-indigo-400"></i><span class="text-xs font-black">Discord</span>
-                </button>
-                <button onclick="confirmRent('Diğer')" class="platform-btn border border-white/10 p-6 rounded-3xl flex flex-col items-center gap-3 transition">
-                    <i class="fa-solid fa-ellipsis text-4xl text-slate-500"></i><span class="text-xs font-black">Diğer</span>
-                </button>
-            </div>
-            <button onclick="closeModal('platform')" class="text-slate-500 font-bold hover:text-white transition">Vazgeç</button>
-        </div>
+<!-- Navbar User Kısmı Güncellemesi -->
+<div id="nav-user" class="hidden flex items-center gap-6">
+    <div class="flex flex-col items-end">
+        <span id="user-display" class="text-xs font-black text-indigo-400"></span>
+        <span id="balance-display" class="text-[10px] text-green-500 font-bold">Bakiye: $0.00</span>
     </div>
+    <button onclick="logout()" class="bg-red-500/10 text-red-500 p-2 rounded-lg hover:bg-red-500 hover:text-white transition">
+        <i class="fa-solid fa-power-off"></i>
+    </button>
+</div>
 
-    <!-- MODAL: SMS KODU -->
-    <div id="sms-modal" class="hidden fixed inset-0 bg-black/98 z-[110] flex items-center justify-center p-4">
-        <div class="glass p-12 rounded-[4rem] max-w-sm w-full text-center border-indigo-500/50 shadow-[0_0_50px_rgba(99,102,241,0.2)]">
-            <div class="w-24 h-24 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-10 shadow-indigo-500/50 shadow-2xl animate-pulse">
-                <i class="fa-solid fa-comment-sms text-4xl"></i>
-            </div>
-            <p id="target-platform" class="text-xs font-black text-indigo-400 uppercase tracking-widest mb-2"></p>
-            <h3 id="modal-phone" class="text-2xl font-black mb-10 text-white"></h3>
-            <div id="modal-code" class="text-7xl font-black tracking-[0.3em] text-white mb-10 bg-white/5 py-8 rounded-3xl border border-white/10">------</div>
-            <p id="modal-status" class="text-sm font-bold text-slate-500 italic mb-10">KOD BEKLENİYOR...</p>
-            <button onclick="closeModal('sms')" class="w-full bg-white/10 py-4 rounded-2xl font-black hover:bg-white/20 transition">KAPAT</button>
-        </div>
+<!-- Admin Paneli - Yeni Özellikler -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10">
+    <div class="glass p-6 rounded-3xl border-indigo-500/20">
+        <p class="text-xs text-slate-500 uppercase">Toplam Ciro</p>
+        <h3 id="admin-revenue" class="text-2xl font-black text-green-400">$0.00</h3>
     </div>
+    <div class="glass p-6 rounded-3xl border-indigo-500/20">
+        <p class="text-xs text-slate-500 uppercase">Aktif Kullanıcı</p>
+        <h3 id="admin-users" class="text-2xl font-black text-blue-400">0</h3>
+    </div>
+</div>
 
 <script>
-    const API = "https://simoq.hasan-antalya98.workers.dev";
-    const ADMIN_CRED = { email: "admin@simoq.com", pass: "simoq2026", token: "GIZLI_ADMIN_SIFRESI_123" };
-    let activeRentPhone = "";
-
-    function showTab(id) {
-        document.querySelectorAll('section').forEach(s => s.classList.remove('active-tab'));
-        document.getElementById('tab-' + id).classList.add('active-tab');
-        if(id !== 'home') window.scrollTo(0, 0);
-    }
-
-    function login() {
-        const email = document.getElementById('email').value;
-        const pass = document.getElementById('pass').value;
-        if(!email || !pass) return alert("Hata: Eksik bilgi.");
-
-        document.getElementById('nav-auth').classList.add('hidden');
-        document.getElementById('nav-user').classList.remove('hidden');
-        document.getElementById('user-display').innerText = email;
-
-        if(email === ADMIN_CRED.email && pass === ADMIN_CRED.pass) {
-            showTab('admin');
-            fetchAdminData();
-        } else {
-            showTab('customer');
-            fetchNumbers();
+    // Oturum Kontrolü (Sayfa Yenilendiğinde Çıkış Yapmaz)
+    window.onload = () => {
+        const savedUser = localStorage.getItem('simo_user');
+        if (savedUser) {
+            currentUser = JSON.parse(savedUser);
+            document.getElementById('nav-auth').classList.add('hidden');
+            document.getElementById('nav-user').classList.remove('hidden');
+            document.getElementById('user-display').innerText = currentUser.email;
+            updateBalance();
+            showTab(currentUser.role === 'admin' ? 'admin' : 'customer');
         }
-    }
+    };
 
-    // --- MÜŞTERİ FONKSİYONLARI ---
-    async function fetchNumbers() {
-        const res = await fetch(`${API}/list-numbers`);
-        const numbers = await res.json();
-        const grid = document.getElementById('number-grid');
-        
-        if(numbers.length === 0) {
-            grid.innerHTML = `<div class="col-span-full py-32 text-center glass rounded-[3rem] border-dashed border-white/10 text-slate-500 font-bold italic">Şu an havuzda boşta numara bulunmuyor.</div>`;
-            return;
-        }
-
-        grid.innerHTML = numbers.map(n => `
-            <div class="glass p-10 rounded-[3rem] border border-white/5 hover:border-indigo-500/30 transition-all group relative overflow-hidden">
-                <div class="absolute top-0 right-0 bg-green-500/20 text-green-500 px-4 py-1 text-[10px] font-black rounded-bl-2xl">AKTİF</div>
-                <div class="flex items-center gap-4 mb-8">
-                    <div class="w-12 h-12 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-500"><i class="fa-solid fa-phone-volume"></i></div>
-                    <div><p class="text-[10px] text-slate-500 font-black uppercase">Ukrayna Fiziki Hat</p><h4 class="text-2xl font-black font-mono">${n}</h4></div>
-                </div>
-                <button onclick="openPlatformModal('${n}')" class="w-full bg-white text-black py-4 rounded-2xl font-black group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-xl">HEMEN KİRALA ($1.00)</button>
-            </div>
-        `).join('');
-    }
-
-    function openPlatformModal(phone) {
-        activeRentPhone = phone;
-        document.getElementById('selected-phone').innerText = phone;
-        document.getElementById('platform-modal').classList.remove('hidden');
-    }
-
-    async function confirmRent(platform) {
-        if(!confirm(`${activeRentPhone} numarasını ${platform} için kiralamak istiyor musunuz?`)) return;
-        
-        closeModal('platform');
-        document.getElementById('sms-modal').classList.remove('hidden');
-        document.getElementById('modal-phone').innerText = activeRentPhone;
-        document.getElementById('target-platform').innerText = platform;
-
-        await fetch(`${API}/buy`, {
+    async function login() {
+        // Gerçek API sorgusu
+        const res = await fetch(`${API}/auth`, {
             method: 'POST',
-            body: JSON.stringify({ phone: activeRentPhone, platform: platform })
+            body: JSON.stringify({ email, password, action: 'login' })
         });
-
-        const check = setInterval(async () => {
-            const res = await fetch(`${API}/get-code?phone=${encodeURIComponent(activeRentPhone)}`);
-            const data = await res.json();
-            if(data.success) {
-                document.getElementById('modal-code').innerText = data.code;
-                document.getElementById('modal-status').innerText = "KOD BAŞARIYLA ALINDI!";
-                document.getElementById('modal-status').className = "text-sm font-black text-green-400 animate-bounce";
-                clearInterval(check);
-            }
-        }, 4000);
-    }
-
-    // --- ADMIN FONKSİYONLARI ---
-    async function fetchAdminData() {
-        const res = await fetch(`${API}/admin/full-list`, {
-            method: 'POST',
-            body: JSON.stringify({ token: ADMIN_CRED.token })
-        });
-        const data = await res.json();
         
-        document.getElementById('stat-total').innerText = data.length;
-        const tbody = document.getElementById('admin-table-body');
-        
-        tbody.innerHTML = data.map(item => `
-            <tr class="border-b border-white/5 hover:bg-white/[0.02] transition">
-                <td class="p-5 font-mono font-bold">${item.phone}</td>
-                <td class="p-5">
-                    <span class="px-3 py-1 rounded-full text-[10px] font-black ${item.status === 'available' ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-500'} uppercase">
-                        ${item.status}
-                    </span>
-                </td>
-                <td class="p-5 font-black text-indigo-400">${item.usageCount || 0} Kez</td>
-                <td class="p-5 text-slate-400">${item.platform || '—'}</td>
-                <td class="p-5">
-                    <button onclick="manageNumber('delete', '${item.phone}')" class="text-red-500 hover:text-red-400 transition"><i class="fa-solid fa-trash-can"></i></button>
-                </td>
-            </tr>
-        `).join('');
-    }
-
-    async function manageNumber(action, phone = "") {
-        const targetPhone = phone || document.getElementById('new-phone').value;
-        if(!targetPhone) return alert("Numara boş olamaz.");
-
-        const res = await fetch(`${API}/admin/manage`, {
-            method: 'POST',
-            body: JSON.stringify({ token: ADMIN_CRED.token, action, phone: targetPhone })
-        });
         if(res.ok) {
-            if(action === 'add') document.getElementById('new-phone').value = "";
-            fetchAdminData();
+            const data = await res.json();
+            localStorage.setItem('simo_user', JSON.stringify(data.user));
+            location.reload(); 
+        } else {
+            alert("Giriş başarısız! Bilgileri kontrol edin.");
         }
     }
 
-    function closeModal(type) {
-        document.getElementById(type + '-modal').classList.add('hidden');
-        if(type === 'sms') fetchNumbers();
+    function logout() {
+        localStorage.removeItem('simo_user');
+        location.reload();
+    }
+
+    // Bakiye Yükleme (Müşteri Paneli)
+    function addBalance() {
+        const amount = prompt("Yüklemek istediğiniz tutarı girin ($):");
+        if(amount) {
+            alert(amount + "$ bakiye talebi alındı. Ödeme onayından sonra eklenecektir.");
+            // Burada ödeme gateway (Iyzico/Paytr vb.) entegrasyonu başlar.
+        }
     }
 </script>
-</body>
-</html>
