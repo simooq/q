@@ -3,205 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMOQ PRO | Güvenli Numara Paneli</title>
+    <title>Simoq SMS Onay Paneli</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        body { background-color: #05070a; color: #e2e8f0; font-family: 'Inter', sans-serif; }
+        body { background: #0f172a; color: white; font-family: sans-serif; }
+        .card { background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
     </style>
 </head>
-<body>
+<body class="p-4 md:p-8">
 
-    <!-- Üst Menü -->
-    <nav class="p-4 border-b border-white/5 sticky top-0 bg-[#05070a]/80 z-50">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-black tracking-tighter italic">SIMOQ<span class="text-indigo-500">PRO</span></h1>
-            
-            <div id="auth-box" class="flex gap-2">
-                <input id="auth-email" type="email" placeholder="E-posta" class="bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg text-sm">
-                <input id="auth-pass" type="password" placeholder="Şifre" class="bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg text-sm">
-                <button onclick="auth('login')" class="bg-indigo-600 px-4 py-1.5 rounded-lg text-sm font-bold">Giriş</button>
-                <button onclick="auth('register')" class="text-xs text-slate-500 underline">Kayıt</button>
-            </div>
-
-            <div id="user-box" class="hidden flex items-center gap-4">
-                <div class="text-right">
-                    <p id="display-email" class="text-[10px] text-slate-500"></p>
-                    <p id="display-balance" class="text-green-500 font-black text-lg">$0.00</p>
-                </div>
-                <button onclick="logout()" class="w-10 h-10 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition">
-                    <i class="fa-solid fa-power-off"></i>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Ana İçerik -->
-    <div id="main-content" class="max-w-7xl mx-auto p-6">
-        
-        <!-- Müşteri Market Görünümü -->
-        <div id="view-market" class="hidden">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-black uppercase italic">Mevcut <span class="text-indigo-500">Numaralar</span></h2>
-                <button onclick="alert('Ödeme altyapısı bekleniyor. Manuel yükleme için adminle iletişime geçin.')" class="bg-green-500 px-6 py-2 rounded-2xl text-black font-black text-xs hover:scale-105 transition">BAKİYE YÜKLE</button>
-            </div>
-            <div id="num-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                <!-- Numaralar Buraya Gelecek -->
-            </div>
+    <div class="max-w-2xl mx-auto">
+        <!-- Başlık -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-black italic text-indigo-500 tracking-tighter">SIMOQ <span class="text-white">SMS</span></h1>
+            <p class="text-slate-400 text-sm mt-2">Hızlı, Güvenilir, Manuel Onay Sistemi</p>
         </div>
 
-        <!-- Admin Paneli Görünümü -->
-        <div id="view-admin" class="hidden">
-            <h2 class="text-3xl font-black text-red-500 mb-8 uppercase">Yönetim Paneli</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <div class="glass p-6 rounded-3xl">
-                    <p class="text-xs font-bold text-slate-500 mb-2 uppercase">Toplam Ciro</p>
-                    <h3 id="stat-revenue" class="text-4xl font-black text-green-500 font-mono">$0.00</h3>
-                </div>
-                <div class="glass p-6 rounded-3xl">
-                    <p class="text-xs font-bold text-slate-500 mb-2 uppercase">Toplam Kullanıcı</p>
-                    <h3 id="stat-users" class="text-4xl font-black">0</h3>
-                </div>
-                <div class="glass p-6 rounded-3xl border-indigo-500/30">
-                    <p class="text-xs font-bold text-slate-500 mb-4 uppercase">Yeni Numara Ekle</p>
-                    <div class="space-y-2">
-                        <input id="adm-phone" placeholder="+90..." class="w-full bg-black/40 border border-white/10 p-2 rounded-lg text-sm">
-                        <input id="adm-price" placeholder="Fiyat (Örn: 2.5)" class="w-full bg-black/40 border border-white/10 p-2 rounded-lg text-sm">
-                        <button onclick="addNumber()" class="w-full bg-indigo-600 py-2 rounded-lg font-bold text-sm">Sisteme Tanımla</button>
+        <!-- Müşteri Bilgilendirme -->
+        <div class="card p-4 rounded-2xl mb-6 flex items-center gap-4 border-l-4 border-l-yellow-500">
+            <i class="fa-solid fa-circle-info text-yellow-500 text-xl"></i>
+            <p class="text-xs text-slate-300">Numarayı satın aldıktan sonra kodu almak için WhatsApp/Telegram üzerinden bize ulaşın.</p>
+        </div>
+
+        <!-- Numara Listesi (Burayı Düzenleyeceksin) -->
+        <div id="market" class="space-y-4">
+            <!-- ÖRNEK NUMARA SATIRI -->
+            <div class="card p-5 rounded-3xl flex justify-between items-center hover:scale-[1.02] transition-all">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="fa-brands fa-whatsapp text-green-500"></i>
+                        <span class="text-xs font-bold text-slate-500 uppercase">Fiziksel Hat</span>
                     </div>
+                    <h3 class="text-xl font-mono font-bold">+380 63 123 45 67</h3>
+                </div>
+                <div class="text-right">
+                    <p class="text-xl font-black text-green-500 mb-2">50 ₺</p>
+                    <a href="https://wa.me/905XXXXXXX?text=Merhaba, +380...67 numaralı hattı almak istiyorum" 
+                       class="bg-indigo-600 px-6 py-2 rounded-xl font-bold text-sm hover:bg-indigo-700 transition">
+                        SATIN AL
+                    </a>
                 </div>
             </div>
+
+            <!-- Yeni Numaraları Buraya Kopyala-Yapıştır Yapabilirsin -->
+            <div class="card p-5 rounded-3xl flex justify-between items-center opacity-80 border-dashed border-white/20">
+                <div class="italic text-slate-500 text-sm">Diğer numaralar yükleniyor...</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-12 text-center text-slate-600 text-[10px] uppercase tracking-widest">
+            SIMOQ V1.0 - NO DATABASE REQUIRED
         </div>
     </div>
 
-    <script>
-        const API_URL = "https://simoq.hasan-antalya98.workers.dev/api"; // Worker URL'ini buraya yaz!
-        let user = JSON.parse(localStorage.getItem('simoq_session'));
-
-        // Sayfa Yüklendiğinde
-        window.onload = () => {
-            if (user) {
-                initSession();
-            } else {
-                document.getElementById('view-market').classList.remove('hidden');
-                loadMarket(); 
-            }
-        };
-
-        async function auth(action) {
-            const email = document.getElementById('auth-email').value;
-            const password = document.getElementById('auth-pass').value;
-
-            if (!email || !password) return alert("Boş bırakma!");
-
-            try {
-                const res = await fetch(`${API_URL}/auth`, {
-                    method: 'POST',
-                    body: JSON.stringify({ email, password, action })
-                });
-                const data = await res.json();
-
-                if (res.ok) {
-                    if (action === 'register') {
-                        alert("Kayıt başarılı! Şimdi giriş yap.");
-                    } else {
-                        localStorage.setItem('simoq_session', JSON.stringify(data));
-                        location.reload();
-                    }
-                } else {
-                    alert(data.error);
-                }
-            } catch (e) { alert("Sunucu hatası!"); }
-        }
-
-        function initSession() {
-            document.getElementById('auth-box').classList.add('hidden');
-            document.getElementById('user-box').classList.remove('hidden');
-            document.getElementById('display-email').innerText = user.email;
-            document.getElementById('display-balance').innerText = `$${user.balance.toFixed(2)}`;
-
-            if (user.role === 'admin') {
-                document.getElementById('view-admin').classList.remove('hidden');
-                loadAdminStats();
-            } else {
-                document.getElementById('view-market').classList.remove('hidden');
-                loadMarket();
-            }
-        }
-
-        async function loadMarket() {
-            const res = await fetch(`${API_URL}/market`);
-            const nums = await res.json();
-            const grid = document.getElementById('num-grid');
-            
-            if (nums.length === 0) {
-                grid.innerHTML = `<p class="text-slate-500 italic">Şu an stokta numara yok.</p>`;
-                return;
-            }
-
-            grid.innerHTML = nums.map(n => `
-                <div class="glass p-6 rounded-[2.5rem] hover:border-indigo-500/50 transition-all group">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="text-[10px] bg-white/10 px-2 py-1 rounded-full text-slate-400">AKTİF</span>
-                        <i class="fa-brands fa-whatsapp text-2xl text-green-500"></i>
-                    </div>
-                    <h4 class="text-xl font-mono font-bold mb-6 group-hover:text-indigo-400">${n.phone}</h4>
-                    <div class="flex justify-between items-center">
-                        <span class="text-lg font-black text-green-500">$${n.price}</span>
-                        <button onclick="buyNumber(${n.id})" class="bg-white text-black px-4 py-2 rounded-xl text-xs font-black hover:bg-indigo-500 hover:text-white transition">AL</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        async function buyNumber(id) {
-            if (!user) return alert("Önce giriş yapmalısın!");
-            if (!confirm("Satın almak istediğine emin misin?")) return;
-
-            const res = await fetch(`${API_URL}/buy`, {
-                method: 'POST',
-                body: JSON.stringify({ email: user.email, phoneId: id })
-            });
-
-            if (res.ok) {
-                alert("Satın alma başarılı! Numara listenize eklendi.");
-                // Burada kullanıcı verisini tekrar çekip bakiyeyi güncelliyoruz
-                const authRes = await fetch(`${API_URL}/auth`, {
-                    method: 'POST',
-                    body: JSON.stringify({ email: user.email, password: user.password, action: 'login' })
-                });
-                const newData = await authRes.json();
-                localStorage.setItem('simoq_session', JSON.stringify(newData));
-                location.reload();
-            } else {
-                const txt = await res.text();
-                alert(txt);
-            }
-        }
-
-        async function addNumber() {
-            const phone = document.getElementById('adm-phone').value;
-            const price = document.getElementById('adm-price').value;
-            await fetch(`${API_URL}/admin/add-num`, {
-                method: 'POST',
-                body: JSON.stringify({ phone, price: parseFloat(price) })
-            });
-            alert("Numara başarıyla eklendi.");
-            location.reload();
-        }
-
-        async function loadAdminStats() {
-            const res = await fetch(`${API_URL}/admin/stats`);
-            const data = await res.json();
-            document.getElementById('stat-revenue').innerText = `$${data.total_revenue.toFixed(2)}`;
-            document.getElementById('stat-users').innerText = data.total_users;
-        }
-
-        function logout() {
-            localStorage.removeItem('simoq_session');
-            location.reload();
-        }
-    </script>
 </body>
 </html>
